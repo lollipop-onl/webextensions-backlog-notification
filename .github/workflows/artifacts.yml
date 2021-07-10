@@ -1,0 +1,23 @@
+name: Build and upload artifact
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build application
+        run: yarn build
+      - name: Get application node-version
+        id: package
+        run: echo "::set-output name=version::$(cat package.json | jq '.version')"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: backlog-notification-extension-v${{ steps.package.outputs.version }}
+          path: dist
+          retention-days: 2
