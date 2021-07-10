@@ -15,7 +15,7 @@ jobs:
         run: yarn build
       - name: Get application node-version
         id: package
-        run: echo "::set-output name=version::$(cat package.json | jq '.version')"
+        run: echo "::set-output name=version::$(cat package.json | jq -r '.version')"
       - uses: actions/upload-artifact@v2
         with:
           name: backlog-notification-extension-v${{ steps.package.outputs.version }}
