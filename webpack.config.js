@@ -1,28 +1,30 @@
 // @ts-check
 
+require('dotenv').config()
+
 const path = require('path');
-const { template, transform } = require('lodash');
+const { template } = require('lodash');
+const { EnvironmentPlugin, ProgressPlugin } = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { ProvidePlugin } = require('webpack');
 
+const { NODE_ENV } = process.env
 const DIST_PATH = path.resolve(__dirname, 'dist');
 const STATIC_PATH = path.resolve(__dirname, 'src/static');
 const TEMPLATE_PATH = path.resolve(__dirname, 'src/templates');
 
-/** @type {import('webpack').Configuration & { devServer: import('webpack-dev-server').Configuration }} */
+/** @type {import('webpack').Configuration} */
 const config = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  devServer: {
-    contentBase: STATIC_PATH,
-    compress: true,
-    port: 43000,
-  },
+  mode: NODE_ENV === 'production' ? 'production' : 'development',
+  devtool: 'source-map',
   entry: {
     popup: './src/scripts/popup.tsx',
+    options: './src/scripts/options.tsx',
     background: './src/scripts/background.ts',
   },
   output: {
@@ -51,6 +53,10 @@ const config = {
           'css-loader',
           'postcss-loader',
         ]
+      },
+      {
+        test: /\.png$/,
+        type: 'asset/resource'
       }
     ],
   },
@@ -66,13 +72,20 @@ const config = {
     ]
   },
   plugins: [
+    new ProgressPlugin(),
     new ForkTsCheckerWebpackPlugin({
       async: true,
     }),
+    new EnvironmentPlugin(['BACKLOG_API_KEY', 'BACKLOG_SPACE_ID']),
     new HTMLWebpackPlugin({
       title: 'Backlog Notification Extension',
       filename: 'popup.html',
       chunks: ['popup'],
+    }),
+    new HTMLWebpackPlugin({
+      title: 'Backlog Notification Extension Options',
+      filename: 'options.html',
+      chunks: ['options'],
     }),
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin({
