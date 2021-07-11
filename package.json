@@ -1,6 +1,7 @@
 {
   "name": "@lollipop-onl/webextensions-backlog-notification",
-  "version": "1.0.0",
+  "version": "0.0.1",
+  "versionName": "Tenjin-alpha",
   "description": "Backlog のお知らせをメニューバーから通知・確認できる Web Extension です",
   "main": "index.js",
   "repository": "https://github.com/lollipop-onl/webextensions-backlog-notification.git",

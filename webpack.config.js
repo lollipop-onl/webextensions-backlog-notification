@@ -4,16 +4,15 @@ require('dotenv').config()
 
 const path = require('path');
 const { template } = require('lodash');
-const { EnvironmentPlugin, ProgressPlugin } = require('webpack');
+const { ProgressPlugin } = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { ProvidePlugin } = require('webpack');
 
-const { NODE_ENV } = process.env
+const { NODE_ENV, npm_package_version, npm_package_versionName, npm_package_description } = process.env
 const DIST_PATH = path.resolve(__dirname, 'dist');
 const STATIC_PATH = path.resolve(__dirname, 'src/static');
 const TEMPLATE_PATH = path.resolve(__dirname, 'src/templates');
@@ -76,7 +75,6 @@ const config = {
     new ForkTsCheckerWebpackPlugin({
       async: true,
     }),
-    new EnvironmentPlugin(['BACKLOG_API_KEY', 'BACKLOG_SPACE_ID']),
     new HTMLWebpackPlugin({
       title: 'Backlog Notification Extension',
       filename: 'popup.html',
@@ -100,9 +98,9 @@ const config = {
               const compiled = template(content.toString());
   
               return compiled({
-                version: process.env.npm_package_version,
-                versionName: 'Tenjin',
-                description: process.env.npm_package_description,
+                version: npm_package_version,
+                versionName: npm_package_versionName,
+                description: npm_package_description,
               });
             };
 
