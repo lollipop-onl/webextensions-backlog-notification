@@ -17,9 +17,9 @@ jobs:
         id: package
         run: echo "::set-output name=version::$(cat package.json | jq -r '.version')"
       - name: Install web-ext
-        run: yarn global add web-ext
+        run: yarn web-ext
       - name: Build with web-ext
-        run: web-ext build
+        run: yarn web-ext build
       - uses: actions/upload-artifact@v2
         with:
           name: backlog_notification_extension-${{ steps.package.outputs.version }}
