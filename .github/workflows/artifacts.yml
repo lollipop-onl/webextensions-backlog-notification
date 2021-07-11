@@ -22,6 +22,6 @@ jobs:
         run: yarn web-ext build
       - uses: actions/upload-artifact@v2
         with:
-          name: backlog_notification_extension-${{ steps.package.outputs.version }}
-          path: web-ext-artifacts/*.zip
+          name: web-ext-artifacts-backlog_notification_extension-${{ steps.package.outputs.version }}
+          path: web-ext-artifacts
           retention-days: 2
