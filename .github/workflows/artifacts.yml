@@ -23,5 +23,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: web-ext-artifacts-backlog_notification_extension-${{ steps.package.outputs.version }}
-          path: web-ext-artifacts
+          path: |
+            web-ext-artifacts/*
+            README.md 
           retention-days: 2
