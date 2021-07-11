@@ -13,7 +13,10 @@ export type BacklogAPIEndpoints = {
       response: BacklogNotification[],
     },
     '/api/v2/notifications/count': {
-      query: {},
+      query: {
+        alreadyRead?: boolean;
+        resourceAlreadyRead?: boolean;
+      },
       response: {
         count: number;
       }

@@ -1,19 +1,19 @@
 import { browser } from "webextension-polyfill-ts"
 import { SpaceOptions } from "~/types/app"
 
-export const getSpacesFromStorage = async (): Promise<SpaceOptions[] | null> => {
+export const getSpacesFromStorage = async (): Promise<SpaceOptions[]> => {
   try {
     const { spaces } = await browser.storage.local.get('spaces');
 
     if (!Array.isArray(spaces)) {
-      return null;
+      return [];
     }
 
     return spaces;
   } catch (err) {
     console.error(err);
     
-    return null;
+    return [];
   }
 }
 

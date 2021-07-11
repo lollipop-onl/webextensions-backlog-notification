@@ -74,6 +74,13 @@ export const OptionsApp: React.VFC = () => {
             <p className="mt-2 pl-[120px] text-sm text-gray-400">
               そのスペースで使用できるAPIキーを指定します。
               <a
+                className="underline hover:no-underline"
+                href="https://backlog.com/ja/blog/backlog-api-rate-limit-announcement/"
+              >
+                レート制限
+              </a>
+              による影響を減らすため、この拡張機能専用のAPIキーを発行することをおすすめします。
+              <a
                 className="ml-1 underline hover:no-underline"
                 href="https://support-ja.backlog.com/hc/ja/articles/360035641754-API%E3%81%AE%E8%A8%AD%E5%AE%9A"
               >

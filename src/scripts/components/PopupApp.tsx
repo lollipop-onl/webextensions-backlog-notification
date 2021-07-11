@@ -1,13 +1,13 @@
-import React from "react";
-import { AppNavigation } from "./AppNavigation";
+import React, { Suspense } from "react";
+import { NotificationList } from "~/components/NotificationList";
 
 export const PopupApp: React.VFC = () => {
   return (
-    <div className="max-w-screen-md max-h-[640px] mx-auto">
+    <div className="max-w-full mx-auto">
       <div className="max-w-full w-[480px]">
-        <div className="sticky b-0 l-0">
-          <AppNavigation />
-        </div>
+        <Suspense fallback={<p>loading...</p>}>
+          <NotificationList />
+        </Suspense>
       </div>
     </div>
   );

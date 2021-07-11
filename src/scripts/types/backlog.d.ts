@@ -32,20 +32,20 @@ export type BacklogIssueStatus = {
 }
 
 export type BacklogAssignee = {
-    id: number;
-    name: string;
-    roleType: number;
-    lang: unknown;
-    mailAddress: string;
+  id: number;
+  name: string;
+  roleType: number;
+  lang: unknown;
+  mailAddress: string;
 }
 
 export type BacklogActor = {
-    id: number;
-    userId: string;
-    name: string;
-    roleType: number;
-    lang: string;
-    mailAddress: string;
+  id: number;
+  userId: string;
+  name: string;
+  roleType: number;
+  lang: string;
+  mailAddress: string;
 }
 
 export type BacklogIssue = {
@@ -95,8 +95,8 @@ export type BacklogNotification = {
   reason: number;
   resourceAlreadyRead: boolean;
   project: BacklogProject;
-  issue: BacklogIssue;
-  comment: BacklogComment;
+  issue: BacklogIssue | null;
+  comment: BacklogComment | null;
   pullRequest: unknown;
   pullRequestComment: unknown;
   sender: BacklogActor;
