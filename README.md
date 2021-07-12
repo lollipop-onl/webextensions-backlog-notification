@@ -3,7 +3,7 @@
 ## Installation (Beta Version)
 
 [最新のアーティファクト](https://github.com/lollipop-onl/webextensions-backlog-notification/actions/workflows/artifacts.yml) をダウンロードします。  
-解凍した拡張機能を以下の手順で一時的な拡張機能としてブラウザにインストールします。
+以下の手順で解凍したディレクトリにある `backlog_notification_extension-X.Y.Z.zip` （`X.Y.Z` はバージョン）をブラウザにインストールします。
 
 ### Google Chrome
 
