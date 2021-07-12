@@ -24,7 +24,7 @@ const updateNotificationCount = async () => {
     const [space] = await getSpacesFromStorage();
 
     if (!space || !space.domain || !space.apiKey) {
-      setCountBadge(1);
+      setCountBadge(0);
 
       return;
     }
