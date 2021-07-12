@@ -1,16 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
-import useSWR, { useSWRInfinite } from 'swr'
+import { useSWRInfinite } from 'swr'
 import http from 'ky-universal'
-import { BacklogAPIEndpoints } from '~/api/types'
+import InfiniteScroll from 'react-infinite-scroller'
 import { NotificationItem } from '~/components/NotificationItem'
-import { getSpacesFromStorage } from '~/utils/webextension'
+import { NotificationSkeleton } from '~/components/NotificationSkeleton'
+import { BacklogAPIEndpoints } from '~/api/types'
+import { SpaceOptions } from '~/types/app'
 
-export const NotificationList: React.VFC = () => {
+export type Props = {
+  space?: SpaceOptions
+};
+
+type BacklogNotifications = BacklogAPIEndpoints['get']['/api/v2/notifications']['response']
+
+const LOAD_PER_PAGE = 30;
+
+export const NotificationList: React.VFC<Props> = ({ space }) => {
   const reachingGuide = useRef<HTMLDivElement>(null);
-  const { data: spaces } = useSWR('webextension.storage.spaces', () => getSpacesFromStorage(), { suspense: true });
-  const { data: notificationPages = [], size, setSize } = useSWRInfinite<BacklogAPIEndpoints['get']['/api/v2/notifications']['response']>((pageIndex, previousPageData) => {
-    const space = spaces?.[0];
 
+  // SWR のキーを取得する
+  const getKey = (pageIndex: number, previousPageData: BacklogNotifications | null) => {
     if (!space || (previousPageData?.length === 0)) {
       return null;
     }
@@ -19,7 +28,7 @@ export const NotificationList: React.VFC = () => {
 
     const searchParams = new URLSearchParams();
 
-    searchParams.set('count', '30');
+    searchParams.set('count', `${LOAD_PER_PAGE}`);
     searchParams.set('apiKey', space.apiKey);
 
     if (lastNotification) {
@@ -27,59 +36,41 @@ export const NotificationList: React.VFC = () => {
     }
 
     return `https://${space.domain}/api/v2/notifications?${searchParams.toString()}`
-  }, (url) => http(url).then((res) => res.json()), { suspense: true })
+  };
+  // SWR の Fetcher
+  const fetcher = (url: string) => http(url).then((res) => res.json())
+  
+  const { data: notificationPages = [], size, setSize } = useSWRInfinite<BacklogNotifications>(getKey, fetcher, { suspense: true })
 
-  const isEmpty = useMemo(() => notificationPages[0]?.length === 0, [notificationPages])
-  const isReacingEnd = useMemo(() => isEmpty || notificationPages.slice().pop()?.length !== 30, [isEmpty, notificationPages])
+  // お知らせの追加ロード中か
+  const isLoadingMore = useMemo(() => size > 0 && typeof notificationPages[size - 1] === 'undefined', [size, notificationPages])
+  // お知らせが０件か
+  const isEmpty = useMemo(() => notificationPages[0] && notificationPages[0].length === 0, [notificationPages]);
+  // 無限ロードが終了したか
+  const isReachingEnd = useMemo(() => isEmpty || notificationPages[notificationPages.length - 1]?.length < LOAD_PER_PAGE, [isEmpty, notificationPages])
 
-  const observer = useMemo(() => new IntersectionObserver((entities) => {
-    if (!notificationPages[size - 1]) {
-      return
-    }
-    
-    const isIntersecting = entities.some((entity) => entity.isIntersecting);
-
-    if (!isIntersecting) {
-      return
-    }
-    
-    setSize(size + 1);
-  }, {
-    threshold: 0.25,
-  }), [size, setSize, notificationPages])
-
-  useEffect(() => {
-    if (!reachingGuide.current) {
+  // お知らせを追加で読み込む
+  const loadMore = useCallback(async () => {
+    if (isLoadingMore || isReachingEnd) {
       return;
     }
+    
+    return await setSize(size + 1);
+  }, [isLoadingMore, isReachingEnd, size]);
 
-    observer.observe(reachingGuide.current);
-
-    return () => {
-      if (reachingGuide.current) {
-        observer.unobserve(reachingGuide.current);
-      }
-    }
-  }, [reachingGuide, observer])
-
-  useEffect(() => {
-    return () => {
-      observer.disconnect();
-    }
-  }, [observer]);
-  
   return (
-    <div>
-      <ul className="w-full">
+    <InfiniteScroll
+      loadMore={loadMore}
+      hasMore={!isReachingEnd}
+      loader={<div className="border-t border-gray-400"><NotificationSkeleton key={size} /></div>}
+    >
+      <ul>
         {notificationPages.flatMap((notifications) => notifications.map((notification, index) => (
           <li key={notification.id} className="border-b border-gray-400 last:border-none">
             <NotificationItem notification={notification} />
           </li>
         )))}
       </ul>
-      { !isReacingEnd && notificationPages.length >= 1 && (
-        <div ref={reachingGuide} className="py-4 text-sm text-center text-gray-600">loading...</div>
-      ) }
-    </div>
+    </InfiniteScroll>
   )
 }

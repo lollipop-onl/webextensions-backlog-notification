@@ -26,10 +26,6 @@ dayjs.locale('ja', {
 
 const $container = document.createElement('div');
 
-$container.classList.add('max-h-full');
-document.body.classList.add('max-h-full');
-document.documentElement.classList.add('max-h-full');
-
 document.body.appendChild($container);
 
 ReactDOM.render(<PopupApp />, $container);

@@ -15,33 +15,98 @@ export const NotificationReason: React.VFC<{ reason: number }> = ({ reason }) =>
   switch (reason) {
     // 課題の担当者に設定
     case 1:
+      return (
+        <span>
+          が
+          <span className="px-1 text-green-700">担当者</span>
+          に設定しました。
+        </span>
+      )
     // 課題にコメント
     case 2:
+      return (
+        <span>
+          が
+          <span className="px-1 text-green-700">コメント</span>
+          しました。
+        </span>
+      )
     // 課題の追加
     case 3:
+      return (
+        <span>
+          が課題を
+          <span className="px-1 text-green-700">追加</span>
+          しました。
+        </span>
+      )
     // 課題の更新
     case 4:
+      return (
+        <span>
+          が課題を
+          <span className="px-1 text-green-700">更新</span>
+          しました。
+        </span>
+      )
     // ファイルを追加
     case 5:
     // プロジェクトユーザーの追加
     case 6:
+      return (
+        <span>
+          がプロジェクトに
+          <span className="px-1 text-red-800">追加</span>
+          しました。
+        </span>
+      )
     // その他
     case 9:
+      return <span>のその他アクション</span>
     // プルリクエストの担当者に設定
     case 10:
+      return (
+        <span>
+          がプルリクエストの
+          <span className="px-1 text-green-700">担当者</span>
+          に設定しました。
+        </span>
+      )
     // プルリクエストにコメント
     case 11:
+      return (
+        <span>
+          がプルリクエストに
+          <span className="px-1 text-green-700">コメント</span>
+          しました。
+        </span>
+      )
     // プルリクエストの追加
     case 12:
+      return (
+        <span>
+          がプルリクエストを
+          <span className="px-1 text-green-700">追加</span>
+          しました。
+        </span>
+      )
     // プルリクエストの更新
     case 13:
+      return (
+        <span>
+          がプルリクエストを
+          <span className="px-1 text-green-700">更新</span>
+          しました。
+        </span>
+      )
     default:
-      return <span>その他</span>
+      return <span>のその他アクション</span>
   }
 }
 
 export const NotificationItem: React.VFC<Props> = ({ notification }) => {
   const [isMetaKeyPressing, setMetaKeyPressing] = useState(false);
+  const [isManuallyAlreadyRead, setManuallyAlreadyRead] = useState(false);
   const { id, resourceAlreadyRead, sender, comment, issue, reason, created } = notification;
 
   const relativeTime = useMemo(() => dayjs(created).fromNow(), [created])
@@ -57,6 +122,8 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
 
     if (event.metaKey) {
       await requestBacklogAPI('post' as any, `/api/v2/notifications/${id}/markAsRead` as any, {});
+
+      setManuallyAlreadyRead(true);
 
       return;
     }
@@ -89,11 +156,11 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
   }, [])
   
   return (
-    <a href="#" className={clsx('flex px-4 py-2 group hover:bg-yellow-100', { 'bg-gray-200': resourceAlreadyRead })} onClick={openIssue}>
+    <a href="#" className={clsx('flex px-4 py-2 group hover:bg-yellow-100', { 'bg-gray-200': resourceAlreadyRead || isManuallyAlreadyRead })} onClick={openIssue}>
       <div className="flex-grow min-w-0 mr-2">
         <p className="flex text-xs text-gray-700">
-          <span className="font-medium">{sender.name}</span> さんが<NotificationReason reason={reason} />
-          <span className={clsx('flex-shrink-0 w-8 ml-auto opacity-0', { 'group-hover:opacity-100': !isMetaKeyPressing || !resourceAlreadyRead })}>
+          <span className="font-medium">{sender.name}</span> さん<NotificationReason reason={reason} />
+          <span className={clsx('flex-shrink-0 w-8 ml-auto opacity-0', { 'group-hover:opacity-100': !isMetaKeyPressing || (!resourceAlreadyRead && !isManuallyAlreadyRead) })}>
             {isMetaKeyPressing ? <EyeIcon className="h-4" /> : <ExternalLinkIcon className="h-4" />}
           </span>
         </p>

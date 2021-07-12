@@ -1,15 +1,20 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { ExclamationIcon, RefreshIcon } from '@heroicons/react/outline'
 import useSWR from 'swr'
+import dayjs from 'dayjs'
 import { FormField } from "~/components/FormField";
 import { FormInput } from "~/components/FormInput";
 import { SpaceOptions } from "~/types/app";
 import { getSpacesFromStorage, saveSpacesToStorage } from "~/utils/webextension";
 import backlogImage from '~~/images/backlog.png'
+import clsx from "clsx";
+import http, { HTTPError } from "ky";
+import { requestBacklogAPI } from "~/api";
 
 export const OptionsApp: React.VFC = () => {
-  const { data: savedSpaces } = useSWR('storage.local.spaces', getSpacesFromStorage, { suspense: true });
-  const [spaces, setSpaces] = useState<SpaceOptions[]>(savedSpaces || [{ domain: '', apiKey: '' }]);
+  const { data: savedSpaces = [] } = useSWR('storage.local.spaces', getSpacesFromStorage, { suspense: true });
+  const [readAllState, setReadAllState] = useState<{ errorMessage: string | null; isLoading: boolean }>({ errorMessage: null, isLoading: false });
+  const [spaces, setSpaces] = useState<SpaceOptions[]>(savedSpaces.length > 0 ? savedSpaces : [{ domain: '', apiKey: '' }]);
   const [isSaving, setSavingStatus] = useState(false)
 
   const validationErrorMessages = useMemo((): string[] => {
@@ -43,6 +48,97 @@ export const OptionsApp: React.VFC = () => {
       setSavingStatus(false);
     }
   }, [spaces])
+
+  const readAll = async () => {
+    console.log('clicked read all')
+    
+    try {
+      setReadAllState({ errorMessage: null, isLoading: true })
+
+      const [space] = spaces;
+      
+      console.log('call')
+      
+      if (!space) {
+        return;
+      }
+
+      const { domain, apiKey } = space;
+      const { count } = await requestBacklogAPI('get', '/api/v2/notifications/count', { resourceAlreadyRead: false });
+
+      let maxId: number | undefined;
+
+      console.log('total', count);
+
+      for (let i = count; i >= 0;) {
+        console.log('iterate', i)
+        
+        const notifications = await requestBacklogAPI('get', '/api/v2/notifications', { count: 100, maxId });
+
+        console.log('notification fetched', notifications.length);
+        
+        const unreadNotificationIdList = notifications.filter(({ resourceAlreadyRead }) => !resourceAlreadyRead).map(({ id }) => id);
+
+        console.log('found unread notifications', unreadNotificationIdList);
+
+        await Promise.all(unreadNotificationIdList.map(async (id) => {
+          const searchParams = new URLSearchParams();
+
+          console.log('call markAsRead', id);
+
+          searchParams.append('apiKey', apiKey);
+          
+          await http(`https://${domain}/api/v2/notifications/${id}/markAsRead`, {
+            method: 'post',
+            searchParams,
+          })
+
+          console.log('call markAsRead end', id);
+        }));
+
+        console.log('mark as read completed');
+
+        i -= unreadNotificationIdList.length;
+
+        maxId = notifications.slice().pop()?.id
+
+        if (maxId == null) {
+          throw new Error('お知らせ一覧が取得できませんでした。');
+        }
+      }
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        const { status } = err.response
+
+        switch (status) {
+          case 401: {
+            setReadAllState(({ isLoading }) => ({ errorMessage: '認証情報が不正です。登録されているスペースで利用可能なAPIキーを登録してください。', isLoading }))
+            
+            return;
+          }
+          case 429: {
+            const { ['X-RateLimit-Reset']: rateLimitReset } = err.response.headers as any;
+            
+            setReadAllState(({ isLoading }) => ({ errorMessage: `レート制限に達しました。制限は${dayjs(rateLimitReset).format('YYYY/MM/DD HH:mm:ss')}に解除されます。`, isLoading }))
+
+            return;
+          }
+        }
+      }
+
+      if (err instanceof Error) {
+        const errorMessage = err.message
+        
+        setReadAllState(({ isLoading }) => ({ errorMessage, isLoading }))
+
+        return;
+      }
+
+      setReadAllState(({ isLoading }) => ({ errorMessage: '不明なエラーが発生しました。', isLoading }))
+    } finally {
+      setReadAllState(({ errorMessage }) => ({ errorMessage, isLoading: false }));
+    }
+  }
   
   return (
     <div className="p-4">
@@ -55,7 +151,7 @@ export const OptionsApp: React.VFC = () => {
           disabled={isSaving}
           onClick={savePreference}
         >
-          {isSaving ? <RefreshIcon className="h-5" /> : '設定を保存'}
+          {isSaving ? <RefreshIcon className="h-5 animate-spin" /> : '設定を保存'}
         </button>
       </div>
       <p className="mb-3 text-xs leading-7 text-gray-400">「設定を保存」ボタンを押すまで、拡張機能の設定は更新されません。</p>
@@ -99,6 +195,29 @@ export const OptionsApp: React.VFC = () => {
             ))}
           </div>
         )}
+      </div>
+      <hr className="my-8 border-b" />
+      <div className="px-8">
+        <FormField label="すべて既読">
+          <button
+            className={clsx('flex w-72 justify-center items-center h-8 text-white transition-colors bg-red-500 rounded-md', { 'disabled:bg-gray-400': validationErrorMessages.length > 0, 'hover:bg-red-600': validationErrorMessages.length === 0 && !readAllState.isLoading })}
+            disabled={validationErrorMessages.length > 0 || readAllState.isLoading}
+            onClick={readAll}
+          >
+            {readAllState.isLoading ? <RefreshIcon className="h-5 mr-2 animate-spin" /> : '未読のお知らせをすべて既読にする'}
+          </button>
+        </FormField>
+        <div className="mt-2 pl-[120px]">
+          <p className="text-sm text-gray-400">
+            未読のお知らせをすべて既読にします。レート制限によって、一度ではすべてのお知らせを既読にできない可能性があります。
+          </p>
+          {readAllState.errorMessage && (
+            <div className="flex mt-8 text-red-800">
+              <ExclamationIcon className="h-6" />
+              <p className="ml-2 leading-6">{readAllState.errorMessage}</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

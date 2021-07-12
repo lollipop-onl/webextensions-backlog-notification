@@ -99,7 +99,6 @@ const config = {
   
               return compiled({
                 version: npm_package_version,
-                versionName: npm_package_versionName,
                 description: npm_package_description,
               });
             };
