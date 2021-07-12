@@ -2,8 +2,6 @@ import { browser } from 'webextension-polyfill-ts';
 import { getSpacesFromStorage } from '~/utils/webextension';
 import { requestBacklogAPI } from './api';
 
-browser.browserAction.setBadgeTextColor({ color: '#ffffff' });
-
 const setCountBadge = (count: number) => {
   console.log(count);
 
