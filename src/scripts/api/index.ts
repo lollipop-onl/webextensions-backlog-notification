@@ -2,7 +2,20 @@ import http from 'ky-universal';
 import { BacklogAPIEndpoints } from './types';
 import { getSpacesFromStorage } from '~/utils/webextension';
 
-export const requestBacklogAPI = async <Method extends keyof BacklogAPIEndpoints, Endpoint extends keyof BacklogAPIEndpoints[Method]>(method: Method, endpoint: Endpoint, query: BacklogAPIEndpoints[Method][Endpoint] extends { query: any } ? BacklogAPIEndpoints[Method][Endpoint]['query'] : {}): Promise<BacklogAPIEndpoints[Method][Endpoint] extends { response: any } ? BacklogAPIEndpoints[Method][Endpoint]['response'] : never> => {
+export const requestBacklogAPI = async <
+  Method extends keyof BacklogAPIEndpoints,
+  Endpoint extends keyof BacklogAPIEndpoints[Method]
+>(
+  method: Method,
+  endpoint: Endpoint,
+  query: BacklogAPIEndpoints[Method][Endpoint] extends { query: any }
+    ? BacklogAPIEndpoints[Method][Endpoint]['query']
+    : {}
+): Promise<
+  BacklogAPIEndpoints[Method][Endpoint] extends { response: any }
+    ? BacklogAPIEndpoints[Method][Endpoint]['response']
+    : never
+> => {
   const spaces = await getSpacesFromStorage();
   const space = spaces[0] || { domain: '', apiKey: '' };
   const searchParams = new URLSearchParams();
@@ -17,13 +30,10 @@ export const requestBacklogAPI = async <Method extends keyof BacklogAPIEndpoints
       case 'boolean':
         searchParams.append(key, value.toString());
     }
-  })
-  
-  return await http(
-    `https://${space.domain}${endpoint}`,
-    {
-      method,
-      searchParams,
-    }
-  ).json();
-}
+  });
+
+  return await http(`https://${space.domain}${endpoint}`, {
+    method,
+    searchParams,
+  }).json();
+};

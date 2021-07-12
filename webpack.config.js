@@ -1,18 +1,18 @@
 // @ts-check
 
-require('dotenv').config()
+require('dotenv').config();
 
 const path = require('path');
 const { template } = require('lodash');
 const { ProgressPlugin } = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const { NODE_ENV, npm_package_version, npm_package_versionName, npm_package_description } = process.env
+const { NODE_ENV, npm_package_version, npm_package_description } = process.env;
 const DIST_PATH = path.resolve(__dirname, 'dist');
 const STATIC_PATH = path.resolve(__dirname, 'src/static');
 const TEMPLATE_PATH = path.resolve(__dirname, 'src/templates');
@@ -42,33 +42,25 @@ const config = {
             options: {
               transpileOnly: true,
             },
-          }
+          },
         ],
       },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-        ]
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.png$/,
-        type: 'asset/resource'
-      }
+        type: 'asset/resource',
+      },
     ],
   },
   resolve: {
-    plugins: [
-      new TsconfigPathsPlugin(),
-    ],
-    extensions: ['.js', '.ts', '.tsx']
+    plugins: [new TsconfigPathsPlugin()],
+    extensions: ['.js', '.ts', '.tsx'],
   },
   optimization: {
-    minimizer: [
-      new CssMinimizerPlugin(),
-    ]
+    minimizer: [new CssMinimizerPlugin()],
   },
   plugins: [
     new ProgressPlugin(),
@@ -96,17 +88,17 @@ const config = {
             // manifest.json のテンプレートを処理する
             if (path.basename(absoluteFrom) === 'manifest.json') {
               const compiled = template(content.toString());
-  
+
               return compiled({
                 version: npm_package_version,
                 description: npm_package_description,
               });
-            };
+            }
 
             return content;
           },
         },
-      ]
+      ],
     }),
   ],
 };

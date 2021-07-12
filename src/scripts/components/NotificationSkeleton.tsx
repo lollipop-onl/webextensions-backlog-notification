@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const NotificationSkeleton: React.VFC = () => {
   return (
@@ -13,4 +13,4 @@ export const NotificationSkeleton: React.VFC = () => {
       </div>
     </div>
   );
-}
+};

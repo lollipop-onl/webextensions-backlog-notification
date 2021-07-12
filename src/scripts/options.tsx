@@ -7,4 +7,9 @@ const $container = document.createElement('div');
 
 document.body.appendChild($container);
 
-ReactDOM.render(<Suspense fallback={<p>Loading from storage...</p>}><OptionsApp /></Suspense>, $container);
+ReactDOM.render(
+  <Suspense fallback={<p>Loading from storage...</p>}>
+    <OptionsApp />
+  </Suspense>,
+  $container
+);

@@ -1,4 +1,4 @@
-import type { BacklogNotification } from '~/types/backlog'
+import type { BacklogNotification } from '~/types/backlog';
 
 export type BacklogAPIEndpoints = {
   get: {
@@ -9,17 +9,17 @@ export type BacklogAPIEndpoints = {
         count?: number;
         order?: 'asc' | 'desc';
         senderId?: number;
-      },
-      response: BacklogNotification[],
-    },
+      };
+      response: BacklogNotification[];
+    };
     '/api/v2/notifications/count': {
       query: {
         alreadyRead?: boolean;
         resourceAlreadyRead?: boolean;
-      },
+      };
       response: {
         count: number;
-      }
-    },
-  },
-}
+      };
+    };
+  };
+};

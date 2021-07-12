@@ -11,25 +11,25 @@ export type BacklogProject = {
 };
 
 export type BacklogIssueType = {
-    id: number;
-    projectId: number;
-    name: string;
-    color: string;
-    displayOrder: number;
-}
+  id: number;
+  projectId: number;
+  name: string;
+  color: string;
+  displayOrder: number;
+};
 
 export type BacklogIssuePriority = {
-    id: number;
-    name: string;
-}
+  id: number;
+  name: string;
+};
 
 export type BacklogIssueStatus = {
-    id: number;
-    projectId: number;
-    name: string;
-    color: string;
-    displayOrder: number;
-}
+  id: number;
+  projectId: number;
+  name: string;
+  color: string;
+  displayOrder: number;
+};
 
 export type BacklogAssignee = {
   id: number;
@@ -37,7 +37,7 @@ export type BacklogAssignee = {
   roleType: number;
   lang: unknown;
   mailAddress: string;
-}
+};
 
 export type BacklogActor = {
   id: number;
@@ -46,37 +46,37 @@ export type BacklogActor = {
   roleType: number;
   lang: string;
   mailAddress: string;
-}
+};
 
 export type BacklogIssue = {
-    id: number;
-    projectId: number;
-    issueKey: string;
-    keyId: number;
-    issueType: BacklogIssueType;
-    summary: string;
-    description: string;
-    resolutions: unknown;
-    priority: BacklogIssuePriority;
-    status: BacklogIssueStatus;
-    assignee: BacklogAssignee;
-    category: unknown[];
-    versions: unknown[];
-    milestone: unknown[];
-    startDate: string;
-    dueDate: string;
-    estimatedHours: unknown;
-    actualHours: unknown;
-    parentIssueId: unknown;
-    createdUser: BacklogActor;
-    created: string;
-    updatedUser: BacklogActor;
-    updated: string;
-    customFields: unknown[];
-    attachments: unknown[];
-    sharedFiles: unknown[];
-    stars: unknown[];
-}
+  id: number;
+  projectId: number;
+  issueKey: string;
+  keyId: number;
+  issueType: BacklogIssueType;
+  summary: string;
+  description: string;
+  resolutions: unknown;
+  priority: BacklogIssuePriority;
+  status: BacklogIssueStatus;
+  assignee: BacklogAssignee;
+  category: unknown[];
+  versions: unknown[];
+  milestone: unknown[];
+  startDate: string;
+  dueDate: string;
+  estimatedHours: unknown;
+  actualHours: unknown;
+  parentIssueId: unknown;
+  createdUser: BacklogActor;
+  created: string;
+  updatedUser: BacklogActor;
+  updated: string;
+  customFields: unknown[];
+  attachments: unknown[];
+  sharedFiles: unknown[];
+  stars: unknown[];
+};
 
 export type BacklogComment = {
   id: number;
@@ -101,4 +101,4 @@ export type BacklogNotification = {
   pullRequestComment: unknown;
   sender: BacklogActor;
   created: string;
-}
+};

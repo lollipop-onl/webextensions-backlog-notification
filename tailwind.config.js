@@ -3,9 +3,7 @@
 /** @type {Partial<import('tailwindcss/tailwind-config').TailwindConfig>} */
 const config = {
   mode: 'jit',
-  purge: [
-    './src/**/*.{html,tsx,ts}'
-  ],
+  purge: ['./src/**/*.{html,tsx,ts}'],
   darkMode: 'media',
   theme: {
     screens: {
@@ -19,12 +17,10 @@ const config = {
       colors: {
         // @ts-expect-error
         backlog: '#40cfa0',
-      }
-    }
+      },
+    },
   },
-  plugins: [
-    require('@tailwindcss/line-clamp'),
-  ]
+  plugins: [require('@tailwindcss/line-clamp')],
 };
 
 module.exports = config;

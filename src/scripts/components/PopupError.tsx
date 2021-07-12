@@ -1,8 +1,8 @@
-import { browser } from "webextension-polyfill-ts";
-import React, { useMemo } from "react";
-import { FallbackProps } from 'react-error-boundary'
-import { HTTPError } from "ky";
-import { ExclamationIcon } from '@heroicons/react/outline'
+import { browser } from 'webextension-polyfill-ts';
+import React, { useMemo } from 'react';
+import { FallbackProps } from 'react-error-boundary';
+import { HTTPError } from 'ky';
+import { ExclamationIcon } from '@heroicons/react/outline';
 
 export const PopupError: React.VFC<FallbackProps> = ({ error }) => {
   const errorMessage = useMemo(() => {
@@ -14,25 +14,25 @@ export const PopupError: React.VFC<FallbackProps> = ({ error }) => {
 
     switch (status) {
       case 401:
-        return '認証情報が不正です。登録されているスペースで利用可能なAPIキーを登録してください。'
+        return '認証情報が不正です。登録されているスペースで利用可能なAPIキーを登録してください。';
       default:
-        return `不明なエラーが発生しました。 (${error.name}: ${error.message})`
+        return `不明なエラーが発生しました。 (${error.name}: ${error.message})`;
     }
-  }, [])
-  
-  const openOptionPage =  async () => {
+  }, [error]);
+
+  const openOptionPage = async () => {
     await browser.runtime.openOptionsPage();
 
-    window.close()
-  }
+    window.close();
+  };
 
   const openGitHubIssue = async () => {
     await browser.tabs.create({
-      url: 'https://github.com/lollipop-onl/webextensions-backlog-notification/issues/new'
-    })
+      url: 'https://github.com/lollipop-onl/webextensions-backlog-notification/issues/new',
+    });
 
-    window.close()
-  }
+    window.close();
+  };
 
   return (
     <div className="px-4 pt-10 pb-6">
@@ -41,7 +41,12 @@ export const PopupError: React.VFC<FallbackProps> = ({ error }) => {
           <ExclamationIcon className="w-24 mx-auto mb-2 text-backlog" />
           <p className="px-4 leading-7 text-gray-700">{errorMessage}</p>
         </div>
-        <button className="inline-flex items-center justify-center px-6 py-2 mb-4 text-sm text-white transition-colors rounded-md bg-backlog hover:bg-green-500" onClick={openOptionPage}>拡張機能の設定を開く</button>
+        <button
+          className="inline-flex items-center justify-center px-6 py-2 mb-4 text-sm text-white transition-colors rounded-md bg-backlog hover:bg-green-500"
+          onClick={openOptionPage}
+        >
+          拡張機能の設定を開く
+        </button>
         <p className="px-8 text-xs text-center text-gray-500">
           問題が解決しませんか？
           <br />
@@ -56,5 +61,5 @@ export const PopupError: React.VFC<FallbackProps> = ({ error }) => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
