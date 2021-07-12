@@ -2,6 +2,8 @@ import { browser } from 'webextension-polyfill-ts';
 import { getSpacesFromStorage } from '~/utils/webextension';
 import { requestBacklogAPI } from './api';
 
+browser.browserAction.setBadgeTextColor?.({ color: '#ffffff' });
+
 const setCountBadge = (count: number) => {
   console.log(count);
 
@@ -22,7 +24,7 @@ const updateNotificationCount = async () => {
     const [space] = await getSpacesFromStorage();
 
     if (!space || !space.domain || !space.apiKey) {
-      setCountBadge(0);
+      setCountBadge(1);
 
       return;
     }
