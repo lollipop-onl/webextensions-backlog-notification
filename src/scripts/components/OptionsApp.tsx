@@ -2,13 +2,13 @@ import React, { useCallback, useMemo, useState } from "react";
 import { ExclamationIcon, RefreshIcon } from '@heroicons/react/outline'
 import useSWR from 'swr'
 import dayjs from 'dayjs'
+import clsx from "clsx";
+import http, { HTTPError } from "ky";
 import { FormField } from "~/components/FormField";
 import { FormInput } from "~/components/FormInput";
 import { SpaceOptions } from "~/types/app";
 import { getSpacesFromStorage, saveSpacesToStorage } from "~/utils/webextension";
 import backlogImage from '~~/images/backlog.png'
-import clsx from "clsx";
-import http, { HTTPError } from "ky";
 import { requestBacklogAPI } from "~/api";
 
 export const OptionsApp: React.VFC = () => {
@@ -50,14 +50,10 @@ export const OptionsApp: React.VFC = () => {
   }, [spaces])
 
   const readAll = async () => {
-    console.log('clicked read all')
-    
     try {
       setReadAllState({ errorMessage: null, isLoading: true })
 
       const [space] = spaces;
-      
-      console.log('call')
       
       if (!space) {
         return;
@@ -68,23 +64,12 @@ export const OptionsApp: React.VFC = () => {
 
       let maxId: number | undefined;
 
-      console.log('total', count);
-
-      for (let i = count; i >= 0;) {
-        console.log('iterate', i)
-        
+      for (let i = count; i > 0;) {
         const notifications = await requestBacklogAPI('get', '/api/v2/notifications', { count: 100, maxId });
-
-        console.log('notification fetched', notifications.length);
-        
         const unreadNotificationIdList = notifications.filter(({ resourceAlreadyRead }) => !resourceAlreadyRead).map(({ id }) => id);
-
-        console.log('found unread notifications', unreadNotificationIdList);
 
         await Promise.all(unreadNotificationIdList.map(async (id) => {
           const searchParams = new URLSearchParams();
-
-          console.log('call markAsRead', id);
 
           searchParams.append('apiKey', apiKey);
           
@@ -92,11 +77,7 @@ export const OptionsApp: React.VFC = () => {
             method: 'post',
             searchParams,
           })
-
-          console.log('call markAsRead end', id);
         }));
-
-        console.log('mark as read completed');
 
         i -= unreadNotificationIdList.length;
 
