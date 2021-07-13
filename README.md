@@ -12,3 +12,8 @@
 ### Firefox
 
 > https://developer.mozilla.org/ja/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension#installing
+
+## Features
+
+- Command (Win: Ctrl) キーを押しながら課題をクリックすると、課題を開かずに課題を既読にできます
+- Shift キーを押しながら課題をクリックすると、課題キーとタイトルをクリップボードにコピーできます

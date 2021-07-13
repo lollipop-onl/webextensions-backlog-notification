@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { browser } from 'webextension-polyfill-ts';
 import dayjs from 'dayjs';
-import { ExternalLinkIcon, EyeIcon } from '@heroicons/react/outline';
+import { ExternalLinkIcon, EyeIcon, ClipboardCopyIcon } from '@heroicons/react/outline';
 import { getSpacesFromStorage } from '~/utils/webextension';
 import { BacklogNotification } from '~/types/backlog';
 import { requestBacklogAPI } from '~/api';
@@ -112,6 +112,7 @@ export const NotificationReason: React.VFC<{ reason: number }> = ({
 
 export const NotificationItem: React.VFC<Props> = ({ notification }) => {
   const [isMetaKeyPressing, setMetaKeyPressing] = useState(false);
+  const [isShiftKeyPressing, setShiftKeyPressing] = useState(false);
   const [isManuallyAlreadyRead, setManuallyAlreadyRead] = useState(false);
   const { id, resourceAlreadyRead, sender, comment, issue, reason, created } =
     notification;
@@ -140,6 +141,32 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
         return;
       }
 
+      if (event.shiftKey) {
+        if (!issue) {
+          return
+        }
+        
+        const $input = document.createElement('input');
+
+        $input.value = `${issue.issueKey} ${issue.summary}`;
+
+        $input.classList.add('absolute');
+        $input.classList.add('opacity-0');
+        $input.classList.add('w-0');
+        $input.classList.add('h-0');
+        $input.classList.add('border-none');
+        $input.classList.add('bg-none');
+
+        document.body.appendChild($input);
+
+        $input.select();
+        document.execCommand('copy');
+
+        document.body.removeChild($input);
+
+        return;
+      }
+
       let url = `https://${space.domain}/view/${issue.issueKey}`;
 
       if (comment && comment.id) {
@@ -158,6 +185,7 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
   useEffect(() => {
     const onKeyboardEvent = (e: KeyboardEvent) => {
       setMetaKeyPressing(e.metaKey);
+      setShiftKeyPressing(e.shiftKey);
     };
 
     window.addEventListener('keydown', onKeyboardEvent);
@@ -184,11 +212,14 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
             className={clsx('flex-shrink-0 w-8 ml-auto opacity-0', {
               'group-hover:opacity-100':
                 !isMetaKeyPressing ||
+                !isShiftKeyPressing ||
                 (!resourceAlreadyRead && !isManuallyAlreadyRead),
             })}
           >
             {isMetaKeyPressing ? (
               <EyeIcon className="h-4" />
+              ) : isShiftKeyPressing ? (
+              <ClipboardCopyIcon className="h-4" />
             ) : (
               <ExternalLinkIcon className="h-4" />
             )}

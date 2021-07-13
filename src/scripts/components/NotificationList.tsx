@@ -83,7 +83,7 @@ export const NotificationList: React.VFC<Props> = ({ space }) => {
       hasMore={!isReachingEnd}
       loader={
         <div className="border-t border-gray-400">
-          <NotificationSkeleton key={size} />
+          <NotificationSkeleton key={0} />
         </div>
       }
     >
