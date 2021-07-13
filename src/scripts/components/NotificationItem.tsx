@@ -146,23 +146,23 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
           return
         }
         
-        const $input = document.createElement('input');
+        const $textarea = document.createElement('textarea');
 
-        $input.value = `${issue.issueKey} ${issue.summary}`;
+        $textarea.value = `${issue.issueKey} ${issue.summary}`;
 
-        $input.classList.add('absolute');
-        $input.classList.add('opacity-0');
-        $input.classList.add('w-0');
-        $input.classList.add('h-0');
-        $input.classList.add('border-none');
-        $input.classList.add('bg-none');
+        $textarea.classList.add('absolute');
+        $textarea.classList.add('opacity-0');
+        $textarea.classList.add('w-0');
+        $textarea.classList.add('h-0');
+        $textarea.classList.add('border-none');
+        $textarea.classList.add('bg-none');
 
-        document.body.appendChild($input);
+        document.body.appendChild($textarea);
 
-        $input.select();
+        $textarea.select();
         document.execCommand('copy');
 
-        document.body.removeChild($input);
+        document.body.removeChild($textarea);
 
         return;
       }
@@ -212,15 +212,12 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
             className={clsx('flex-shrink-0 w-8 ml-auto opacity-0', {
               'group-hover:opacity-100':
                 !isMetaKeyPressing ||
-                !isShiftKeyPressing ||
                 (!resourceAlreadyRead && !isManuallyAlreadyRead),
             })}
           >
             {isMetaKeyPressing ? (
               <EyeIcon className="h-4" />
-              ) : isShiftKeyPressing ? (
-              <ClipboardCopyIcon className="h-4" />
-            ) : (
+              ) : (
               <ExternalLinkIcon className="h-4" />
             )}
           </span>
