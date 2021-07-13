@@ -204,7 +204,7 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
       })}
       onClick={openIssue}
     >
-      <div className="flex-grow min-w-0 mr-2">
+      <div className="flex-grow min-w-0 mr-2 text-left">
         <p className="flex text-xs text-gray-700">
           <span className="font-medium">{sender.name}</span> さん
           <NotificationReason reason={reason} />
@@ -228,7 +228,7 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
           </p>
         )}
         {issue && (
-          <p className="mt-1 overflow-hidden text-xs text-left text-gray-600 overflow-ellipsis whitespace-nowrap">
+          <p className="mt-1 overflow-hidden text-xs text-gray-600 overflow-ellipsis whitespace-nowrap">
             <span className="font-medium">{issue.issueKey}</span>{' '}
             {issue.summary}
           </p>
