@@ -221,6 +221,8 @@ export const OptionsApp: React.VFC = () => {
               <a
                 className="underline hover:no-underline"
                 href="https://backlog.com/ja/blog/backlog-api-rate-limit-announcement/"
+                target="_blank"
+                rel="noreferrer"
               >
                 レート制限
               </a>
@@ -228,6 +230,8 @@ export const OptionsApp: React.VFC = () => {
               <a
                 className="ml-1 underline hover:no-underline"
                 href="https://support-ja.backlog.com/hc/ja/articles/360035641754-API%E3%81%AE%E8%A8%AD%E5%AE%9A"
+                target="_blank"
+                rel="noreferrer"
               >
                 新しいAPIキーを発行する
               </a>
