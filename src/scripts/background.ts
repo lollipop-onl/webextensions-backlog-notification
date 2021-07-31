@@ -43,7 +43,7 @@ const updateNotificationCount = async () => {
 };
 
 browser.alarms.create({
-  periodInMinutes: 3,
+  periodInMinutes: 1,
 });
 
 browser.alarms.onAlarm.addListener(async () => {
