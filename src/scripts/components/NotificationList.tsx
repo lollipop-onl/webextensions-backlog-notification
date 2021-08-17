@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react';
 import { useSWRInfinite } from 'swr';
 import http from 'ky-universal';
 import InfiniteScroll from 'react-infinite-scroller';
-import { useLogger } from 'react-use';
 import { NotificationItem } from '~/components/NotificationItem';
 import { NotificationSkeleton } from '~/components/NotificationSkeleton';
 import { BacklogAPIEndpoints } from '~/api/types';
@@ -77,8 +76,6 @@ export const NotificationList: React.VFC<Props> = ({ space }) => {
 
     return await setSize(size + 1);
   }, [isLoadingMore, isReachingEnd, size, setSize]);
-
-  useLogger('Notification Pages', notificationPages);
 
   return (
     <InfiniteScroll
