@@ -11,7 +11,7 @@ const setCountBadge = (count: number) => {
 
   if (count > 0) {
     browser.browserAction.setBadgeText({ text: badgeText });
-    browser.browserAction.setBadgeBackgroundColor({ color: '#ff1952' });
+    browser.browserAction.setBadgeBackgroundColor({ color: '#fe1aaf' });
 
     return;
   }
@@ -43,7 +43,7 @@ const updateNotificationCount = async () => {
 };
 
 browser.alarms.create({
-  periodInMinutes: 3,
+  periodInMinutes: 1,
 });
 
 browser.alarms.onAlarm.addListener(async () => {

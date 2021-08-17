@@ -4,22 +4,24 @@ require('dotenv').config();
 
 const path = require('path');
 const { template } = require('lodash');
-const { ProgressPlugin } = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const WebpackBar = require('webpackbar');
 
 const { NODE_ENV, npm_package_version, npm_package_description } = process.env;
 const DIST_PATH = path.resolve(__dirname, 'dist');
 const STATIC_PATH = path.resolve(__dirname, 'src/static');
 const TEMPLATE_PATH = path.resolve(__dirname, 'src/templates');
+const WEBPACK_MODE = NODE_ENV === 'production' ? 'production' : 'development';
 
 /** @type {import('webpack').Configuration} */
 const config = {
-  mode: NODE_ENV === 'production' ? 'production' : 'development',
+  mode: WEBPACK_MODE,
   devtool: 'source-map',
   entry: {
     popup: './src/scripts/popup.tsx',
@@ -62,8 +64,11 @@ const config = {
   optimization: {
     minimizer: [new CssMinimizerPlugin()],
   },
+  stats: 'none',
   plugins: [
-    new ProgressPlugin(),
+    // @ts-expect-error
+    new WebpackBar({}),
+    new FriendlyErrorsPlugin(),
     new ForkTsCheckerWebpackPlugin({
       async: true,
     }),
@@ -80,23 +85,27 @@ const config = {
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin({
       patterns: [
-        { from: STATIC_PATH, to: DIST_PATH },
         {
-          from: TEMPLATE_PATH,
+          from: STATIC_PATH,
+          to: DIST_PATH,
+          noErrorOnMissing: true,
+          globOptions: { dot: false },
+        },
+        {
+          from: path.join(TEMPLATE_PATH, 'manifest.json'),
           to: DIST_PATH,
           transform: (content, absoluteFrom) => {
-            // manifest.json のテンプレートを処理する
-            if (path.basename(absoluteFrom) === 'manifest.json') {
-              const compiled = template(content.toString());
+            const compiled = template(content.toString());
 
-              return compiled({
-                version: npm_package_version,
-                description: npm_package_description,
-              });
-            }
-
-            return content;
+            return compiled({
+              version: npm_package_version,
+              description: npm_package_description,
+            });
           },
+        },
+        {
+          from: path.join(TEMPLATE_PATH, 'icons', WEBPACK_MODE),
+          to: path.join(DIST_PATH, 'icons'),
         },
       ],
     }),

@@ -1,3 +1,5 @@
+import { BacklogIssuePriorityId } from '~/constants/backlog';
+
 export type BacklogProject = {
   id: number;
   projectKey: string;
@@ -19,7 +21,7 @@ export type BacklogIssueType = {
 };
 
 export type BacklogIssuePriority = {
-  id: number;
+  id: BacklogIssuePriorityId;
   name: string;
 };
 

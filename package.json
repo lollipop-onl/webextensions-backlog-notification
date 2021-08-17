@@ -54,6 +54,7 @@
     "react-dom": "^17.0.2",
     "react-error-boundary": "^3.1.3",
     "react-infinite-scroller": "^1.2.4",
+    "react-use": "^17.2.4",
     "swr": "^0.5.6",
     "tailwindcss": "^2.2.4",
     "ts-loader": "^9.2.3",
@@ -71,7 +72,12 @@
     "lint:js:prettier": "prettier --write --ignore-path .gitignore --loglevel=warn \"./**/*.{js,ts,tsx}\""
   },
   "dependencies": {
-    "dayjs": "^1.10.6"
+    "@types/friendly-errors-webpack-plugin": "^0.1.4",
+    "@types/webpackbar": "^4.0.2",
+    "dayjs": "^1.10.6",
+    "framer-motion": "^4.1.17",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "webpackbar": "^5.0.0-3"
   },
   "webExt": {
     "sourceDir": "dist"
