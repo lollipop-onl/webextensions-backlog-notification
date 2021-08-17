@@ -1,4 +1,4 @@
-import { BacklogIssuePriorityId } from "~/constants/backlog";
+import { BacklogIssuePriorityId } from '~/constants/backlog';
 
 export type BacklogProject = {
   id: number;

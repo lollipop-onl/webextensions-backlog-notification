@@ -3,6 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import useSWR from 'swr';
 import { NotificationList } from '~/components/NotificationList';
 import { PopupLoading } from '~/components/PopupLoading';
+import { PopupHeader } from '~/components/PopupHeader';
 import { PopupError } from '~/components/PopupError';
 import { getSpacesFromStorage } from '~/utils/webextension';
 
@@ -34,6 +35,7 @@ export const PopupApp: React.VFC = () => {
     <div className="max-w-full mx-auto">
       <div className="max-w-full w-[480px]">
         <ErrorBoundary FallbackComponent={PopupError}>
+          <PopupHeader />
           <Suspense fallback={<PopupLoading />}>
             <PopupView />
           </Suspense>

@@ -2,8 +2,14 @@ import React, { useCallback, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { browser } from 'webextension-polyfill-ts';
 import dayjs from 'dayjs';
-import { useKeyPress, useCopyToClipboard } from 'react-use'
-import { ExternalLinkIcon, EyeIcon, ClipboardCopyIcon, ArrowRightIcon, FireIcon } from '@heroicons/react/outline';
+import { useKeyPress, useCopyToClipboard } from 'react-use';
+import {
+  ExternalLinkIcon,
+  EyeIcon,
+  ClipboardCopyIcon,
+  ArrowRightIcon,
+  FireIcon,
+} from '@heroicons/react/outline';
 import { NotificationReason } from '~/components/NotificationReason';
 import { getSpacesFromStorage } from '~/utils/webextension';
 import { BacklogIssuePriorityId } from '~/constants/backlog';
@@ -23,7 +29,17 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
     notification;
 
   const relativeTime = useMemo(() => dayjs(created).fromNow(), [created]);
-  const isOverDeadline = useMemo((): boolean => Boolean(issue && issue.status.id !== 4 && issue.dueDate && issue.dueDate.split('T')[0] && dayjs(issue.dueDate.split('T')[0]).isBefore(new Date(), 'date')), [issue]);
+  const isOverDeadline = useMemo(
+    (): boolean =>
+      Boolean(
+        issue &&
+          issue.status.id !== 4 &&
+          issue.dueDate &&
+          issue.dueDate.split('T')[0] &&
+          dayjs(issue.dueDate.split('T')[0]).isBefore(new Date(), 'date')
+      ),
+    [issue]
+  );
 
   const openIssue: React.MouseEventHandler = useCallback(
     async (event) => {
@@ -48,8 +64,8 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
       }
 
       if (isShiftKeyPressing) {
-        copyToClipboard(`${issue.issueKey} ${issue.summary}`)
-        
+        copyToClipboard(`${issue.issueKey} ${issue.summary}`);
+
         return;
       }
 
@@ -74,12 +90,12 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
       onClick={openIssue}
     >
       <div className="flex items-center">
-        <p className="flex min-w-0 text-xs text-gray-700 ">
+        <div className="flex min-w-0 text-xs text-gray-700 ">
           <p className="overflow-hidden overflow-ellipsis whitespace-nowrap">
             <span className="font-medium">{sender.name}</span> さん
             <NotificationReason reason={reason} />
           </p>
-        </p>
+        </div>
         <div className="flex-shrink-0 px-2 ml-auto">
           <div
             className={clsx('hidden', {
@@ -97,9 +113,7 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
             )}
           </div>
         </div>
-        {isOverDeadline ? (
-          <FireIcon className="h-5 mr-1 text-red-600" />
-        ) : null}
+        {isOverDeadline ? <FireIcon className="h-5 mr-1 text-red-600" /> : null}
         {issue && (
           <p
             className="flex-shrink-0 max-w-lg px-2 mr-1 text-xs leading-5 text-white rounded-full"
@@ -116,19 +130,24 @@ export const NotificationItem: React.VFC<Props> = ({ notification }) => {
         </p>
       )}
       {issue && (
-        <p className="flex items-center mt-1 mr-2 text-xs text-gray-600">
+        <div className="flex items-center mt-1 mr-2 text-xs text-gray-600">
           <ArrowRightIcon
             className={clsx('h-4 block flex-shrink-0', {
-              'text-priority-high transform -rotate-90': issue.priority.id === BacklogIssuePriorityId.HIGH,
-              'text-priority-medium': issue.priority.id === BacklogIssuePriorityId.MEDIUM,
-              'text-priority-low transform rotate-90': issue.priority.id === BacklogIssuePriorityId.LOW,
+              'text-priority-high transform -rotate-90':
+                issue.priority.id === BacklogIssuePriorityId.HIGH,
+              'text-priority-medium':
+                issue.priority.id === BacklogIssuePriorityId.MEDIUM,
+              'text-priority-low transform rotate-90':
+                issue.priority.id === BacklogIssuePriorityId.LOW,
             })}
           />
-          <span className="flex-shrink-0 block mx-1 font-medium">{issue.issueKey}</span>
+          <p className="flex-shrink-0 block mx-1 font-medium">
+            {issue.issueKey}
+          </p>
           <h3 className="overflow-hidden overflow-ellipsis whitespace-nowrap">
             {issue.summary}
           </h3>
-        </p>
+        </div>
       )}
     </button>
   );

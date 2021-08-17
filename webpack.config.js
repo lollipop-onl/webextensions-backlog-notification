@@ -17,7 +17,7 @@ const { NODE_ENV, npm_package_version, npm_package_description } = process.env;
 const DIST_PATH = path.resolve(__dirname, 'dist');
 const STATIC_PATH = path.resolve(__dirname, 'src/static');
 const TEMPLATE_PATH = path.resolve(__dirname, 'src/templates');
-const WEBPACK_MODE = NODE_ENV === 'production' ? 'production' : 'development'
+const WEBPACK_MODE = NODE_ENV === 'production' ? 'production' : 'development';
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -85,7 +85,12 @@ const config = {
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin({
       patterns: [
-        { from: STATIC_PATH, to: DIST_PATH, noErrorOnMissing: true, globOptions: { dot: false } },
+        {
+          from: STATIC_PATH,
+          to: DIST_PATH,
+          noErrorOnMissing: true,
+          globOptions: { dot: false },
+        },
         {
           from: path.join(TEMPLATE_PATH, 'manifest.json'),
           to: DIST_PATH,
@@ -101,7 +106,7 @@ const config = {
         {
           from: path.join(TEMPLATE_PATH, 'icons', WEBPACK_MODE),
           to: path.join(DIST_PATH, 'icons'),
-        }
+        },
       ],
     }),
   ],
