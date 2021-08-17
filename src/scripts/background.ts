@@ -11,7 +11,7 @@ const setCountBadge = (count: number) => {
 
   if (count > 0) {
     browser.browserAction.setBadgeText({ text: badgeText });
-    browser.browserAction.setBadgeBackgroundColor({ color: '#ff1952' });
+    browser.browserAction.setBadgeBackgroundColor({ color: '#fe1aaf' });
 
     return;
   }
