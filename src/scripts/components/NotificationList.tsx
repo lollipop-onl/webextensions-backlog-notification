@@ -39,7 +39,7 @@ export const NotificationList: React.VFC<Props> = ({ space }) => {
 
     return `https://${
       space.domain
-    }/api/v2/notifications?${searchParams.toString()}`;
+    }/api/v2/notifications?${searchParams}`;
   };
   // SWR の Fetcher
   const fetcher = (url: string) => http(url).then((res) => res.json());

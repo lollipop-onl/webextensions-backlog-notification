@@ -9,6 +9,17 @@ export type BacklogProject = {
   projectLeaderCanEditProjectLeader: boolean;
   textFormattingRule: string;
   archived: boolean;
+};
+
+export type BacklogNotificationProject = {
+  id: number;
+  projectKey: string;
+  name: string;
+  chartEnabled: boolean;
+  subtaskingEnabled: boolean;
+  projectLeaderCanEditProjectLeader: boolean;
+  textFormattingRule: string;
+  archived: boolean;
   displayOrder: number;
 };
 
@@ -96,7 +107,7 @@ export type BacklogNotification = {
   alreadyRead: boolean;
   reason: number;
   resourceAlreadyRead: boolean;
-  project: BacklogProject;
+  project: BacklogNotificationProject;
   issue: BacklogIssue | null;
   comment: BacklogComment | null;
   pullRequest: unknown;

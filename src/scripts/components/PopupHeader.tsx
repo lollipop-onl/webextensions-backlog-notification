@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { AnimateSharedLayout, motion } from 'framer-motion';
 import backlogLogo from '~~/images/backlog.png';
 
-const HEADER_TABS = [{ text: 'お知らせ' }, /* { text: 'プロジェクト' } */];
+const HEADER_TABS = [{ text: 'お知らせ' }, { text: 'プロジェクト' }];
 
-export const PopupHeader: React.VFC = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+export type Props = {
+  tabIndex: number;
+  onChange(index: number): void;
+}
 
+export const PopupHeader: React.VFC<Props> = ({ tabIndex, onChange }) => {
   return (
     <header className="flex items-center w-full px-2 bg-backlog">
       <img className="flex-shrink-0 h-10 mr-2" src={backlogLogo} alt="Backlog" />
@@ -24,7 +27,7 @@ export const PopupHeader: React.VFC = () => {
                   }
                 )}
                 disabled={tabIndex === index}
-                onClick={() => setTabIndex(index)}
+                onClick={() => onChange(index)}
               >
                 {text}
                 {tabIndex === index && (

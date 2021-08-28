@@ -1,7 +1,14 @@
-import type { BacklogNotification } from '~/types/backlog';
+import type { BacklogNotification, BacklogProject } from '~/types/backlog';
 
 export type BacklogAPIEndpoints = {
   get: {
+    '/api/v2/projects': {
+      query: {
+        archived?: boolean;
+        all?: boolean;
+      };
+      response: BacklogProject[];
+    };
     '/api/v2/notifications': {
       query: {
         minId?: number;
