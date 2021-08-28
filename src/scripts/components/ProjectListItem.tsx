@@ -1,11 +1,13 @@
-import React, { useMemo } from "react"
-import { SpaceOptions } from "~/types/app"
-import { BacklogProject } from "~/types/backlog";
+import React, { useMemo } from 'react';
+import { browser } from 'webextension-polyfill-ts';
+import { PlusIcon, ViewListIcon } from '@heroicons/react/outline';
+import { SpaceOptions } from '~/types/app';
+import { BacklogProject } from '~/types/backlog';
 
 export type Props = {
   space: SpaceOptions;
   project: BacklogProject;
-}
+};
 
 export const ProjectListItem: React.VFC<Props> = ({ space, project }) => {
   const projectIconUrl = useMemo(() => {
@@ -15,17 +17,50 @@ export const ProjectListItem: React.VFC<Props> = ({ space, project }) => {
 
     return `https://${space.domain}/api/v2/projects/${project.projectKey}/image?${searchParams}`;
   }, [space, project]);
-  
+
+  const openNewIssuePage = async () => {
+    await browser.tabs.create({
+      url: `https://${space.domain}/add/${project.projectKey}`,
+    });
+
+    window.close();
+  };
+
+  const openIssueListPage = async () => {
+    await browser.tabs.create({
+      url: `https://${space.domain}/find/${project.projectKey}`,
+    });
+
+    window.close();
+  };
+
   return (
-    <div className="flex items-center w-full px-4 group">
-      <img src={projectIconUrl} alt="" width="48" height="48" />
-      <div className="ml-2">
-        <h2>{project.name}</h2>
-        <div className="h-2">
-          <p className="group-hover:hidden mt-0.5 text-xs text-gray-600">{project.projectKey}</p>
-          <p className="hidden text-xs group-hover:block">navigation</p>
-        </div>
+    <div className="flex items-center w-full px-4 py-3 group">
+      <div className="flex-shrink-0">
+        <img src={projectIconUrl} alt="" width="48" height="48" />
+      </div>
+      <div className="min-w-0 mx-2">
+        <h2 className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+          {project.name}
+        </h2>
+        <p className="mt-0.5 overflow-hidden overflow-ellipsis whitespace-nowrap text-xs text-gray-600">
+          {project.projectKey}
+        </p>
+      </div>
+      <div className="flex items-center flex-shrink-0 ml-auto transition-opacity opacity-40 group-hover:opacity-100">
+        <button
+          className="p-2 transition-colors rounded hover:bg-gray-600 hover:text-gray-100"
+          onClick={openNewIssuePage}
+        >
+          <PlusIcon className="h-6" />
+        </button>
+        <button
+          className="p-2 transition-colors rounded hover:bg-gray-600 hover:text-gray-100"
+          onClick={openIssueListPage}
+        >
+          <ViewListIcon className="h-6" />
+        </button>
       </div>
     </div>
-  )
-};  
+  );
+};

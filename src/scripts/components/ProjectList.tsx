@@ -3,14 +3,14 @@ import useSWR from 'swr';
 import http from 'ky-universal';
 import { SpaceOptions } from '~/types/app';
 import { BacklogAPIEndpoints } from '~/api/types';
-import { ProjectListItem } from './ProjectListItem';
+import { ProjectListItem } from '~/components/ProjectListItem';
 
 export type Props = {
   space?: SpaceOptions;
 };
 
-type BacklogProjects =
-  BacklogAPIEndpoints['get']['/api/v2/projects']['response'];
+type BacklogRecentlyViewedProjectsProjects =
+  BacklogAPIEndpoints['get']['/api/v2/users/myself/recentlyViewedProjects']['response'];
 
 export const ProjectList: React.VFC<Props> = ({ space }) => {
   // SWR のキーを取得する
@@ -21,15 +21,18 @@ export const ProjectList: React.VFC<Props> = ({ space }) => {
 
     const searchParams = new URLSearchParams();
 
-    searchParams.append('archived', 'false');
+    // TODO: 無限ロードに対応する
+    searchParams.append('count', '100');
     searchParams.append('apiKey', space.apiKey);
 
-    return `https://${space.domain}/api/v2/projects?${searchParams}`;
+    return `https://${space.domain}/api/v2/users/myself/recentlyViewedProjects?${searchParams}`;
   }
   // SWR の fetcher
   const fetcher = (url: string) => http(url).then((res) => res.json());
 
-  const { data: projects } = useSWR<BacklogProjects>(getKey, fetcher);
+  const { data: projects } = useSWR<BacklogRecentlyViewedProjectsProjects>(getKey, fetcher, { suspense: true, revalidateOnMount: false });
+
+  console.log(projects);
 
   if (!projects || !space) {
     return null;
@@ -38,8 +41,8 @@ export const ProjectList: React.VFC<Props> = ({ space }) => {
   return (
     <div>
       <ol>
-        {projects.map((project) => (
-          <li key={project.id}>
+        {projects.map(({ project }) => (
+          <li key={project.id} className="border-b last:border-b-0">
             <ProjectListItem space={space} project={project} />
           </li>
         ))}

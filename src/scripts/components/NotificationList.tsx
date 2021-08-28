@@ -48,7 +48,7 @@ export const NotificationList: React.VFC<Props> = ({ space }) => {
     data: notificationPages = [],
     size,
     setSize,
-  } = useSWRInfinite<BacklogNotifications>(getKey, fetcher, { suspense: true });
+  } = useSWRInfinite<BacklogNotifications>(getKey, fetcher, { suspense: true, revalidateOnMount: false });
 
   // お知らせの追加ロード中か
   const isLoadingMore = useMemo(

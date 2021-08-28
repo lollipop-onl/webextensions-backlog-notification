@@ -50,8 +50,12 @@ browser.alarms.onAlarm.addListener(async () => {
   updateNotificationCount();
 });
 
-browser.storage.onChanged.addListener(() => {
-  updateNotificationCount();
+browser.storage.onChanged.addListener(async (changes) => {
+  console.log(changes);
+  
+  if ('spaces' in changes) {
+    await updateNotificationCount();
+  }
 });
 
 updateNotificationCount();

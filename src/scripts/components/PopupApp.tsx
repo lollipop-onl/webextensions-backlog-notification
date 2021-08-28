@@ -1,15 +1,16 @@
-import React, { Suspense, useEffect, useMemo, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import useSWR from 'swr';
 import { NotificationList } from '~/components/NotificationList';
 import { ProjectList } from '~/components/ProjectList';
-import { PopupLoading } from '~/components/PopupLoading';
+import { NotificationListLoading } from '~/components/NotificationListLoading';
+import { ProjectListLoading } from '~/components/ProjectListLoading';
 import { PopupHeader } from '~/components/PopupHeader';
 import { PopupError } from '~/components/PopupError';
-import { getSpacesFromStorage } from '~/utils/webextension';
+import { getActiveTabIndexFromStorage, getSpacesFromStorage, setActiveTabIndexToStorage } from '~/utils/webextension';
 
 export const PopupView: React.VFC = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState<number | null>(null);
   const { data: [space] = [] } = useSWR(
     'webextension.storage.spaces',
     () => getSpacesFromStorage(),
@@ -21,6 +22,16 @@ export const PopupView: React.VFC = () => {
     [space]
   );
 
+  const onChangeActiveTab = useCallback(async (tabIndex: number) => {
+    setTabIndex(tabIndex);
+
+    await setActiveTabIndexToStorage(tabIndex);
+  }, [])
+
+  useEffect(() => {
+    getActiveTabIndexFromStorage().then((tabIndex) => setTabIndex(tabIndex));
+  }, []);
+
   useEffect(() => {
     if (isSpaceInvalid) {
       throw new Error(
@@ -29,17 +40,21 @@ export const PopupView: React.VFC = () => {
     }
   }, [isSpaceInvalid]);
 
-  if (isSpaceInvalid) {
+  if (isSpaceInvalid || tabIndex == null) {
     return null;
   }
 
   return (
     <div>
-      <PopupHeader tabIndex={tabIndex} onChange={setTabIndex} />
+      <PopupHeader tabIndex={tabIndex} onChange={onChangeActiveTab} />
       {tabIndex === 1 ? (
-        <ProjectList space={space} />
+        <Suspense fallback={<ProjectListLoading />}>
+          <ProjectList space={space} />
+        </Suspense>
       ) : (
-        <NotificationList space={space} />
+        <Suspense fallback={<NotificationListLoading />}>
+          <NotificationList space={space} />
+        </Suspense>
       )}
     </div>
   );
@@ -50,7 +65,7 @@ export const PopupApp: React.VFC = () => {
     <div className="max-w-full mx-auto">
       <div className="max-w-full w-[480px]">
         <ErrorBoundary FallbackComponent={PopupError}>
-          <Suspense fallback={<PopupLoading />}>
+          <Suspense fallback={<p>loading...</p>}>
             <PopupView />
           </Suspense>
         </ErrorBoundary>

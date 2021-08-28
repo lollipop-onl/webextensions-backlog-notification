@@ -9,6 +9,17 @@ export type BacklogAPIEndpoints = {
       };
       response: BacklogProject[];
     };
+    '/api/v2/users/myself/recentlyViewedProjects': {
+      query: {
+        order?: 'asc' | 'desc';
+        offset?: number;
+        count?: number;
+      };
+      response: Array<{
+        project: BacklogProject;
+        updated: string;
+      }>;
+    };
     '/api/v2/notifications': {
       query: {
         minId?: number;
