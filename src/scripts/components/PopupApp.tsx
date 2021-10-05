@@ -3,8 +3,10 @@ import { ErrorBoundary } from 'react-error-boundary';
 import useSWR from 'swr';
 import { NotificationList } from '~/components/NotificationList';
 import { ProjectList } from '~/components/ProjectList';
+import { IssueList } from '~/components/IssueList';
 import { NotificationListLoading } from '~/components/NotificationListLoading';
 import { ProjectListLoading } from '~/components/ProjectListLoading';
+import { IssueListLoading } from '~/components/IssueListLoading';
 import { PopupHeader } from '~/components/PopupHeader';
 import { PopupError } from '~/components/PopupError';
 import { getActiveTabIndexFromStorage, getSpacesFromStorage, setActiveTabIndexToStorage } from '~/utils/webextension';
@@ -47,15 +49,19 @@ export const PopupView: React.VFC = () => {
   return (
     <div>
       <PopupHeader tabIndex={tabIndex} onChange={onChangeActiveTab} />
-      {tabIndex === 1 ? (
-        <Suspense fallback={<ProjectListLoading />}>
-          <ProjectList space={space} />
-        </Suspense>
-      ) : (
+      { tabIndex === 0 ? (
         <Suspense fallback={<NotificationListLoading />}>
           <NotificationList space={space} />
         </Suspense>
-      )}
+      ) : tabIndex === 1 ? (
+        <Suspense fallback={<ProjectListLoading />}>
+          <ProjectList space={space} />
+        </Suspense>
+      ) : tabIndex === 2 ? (
+        <Suspense fallback={<IssueListLoading />}>
+          <IssueList space={space} />
+        </Suspense>
+      ) : null}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import type { BacklogNotification, BacklogProject } from '~/types/backlog';
+import type { BacklogIssue, BacklogNotification, BacklogProject } from '~/types/backlog';
 
 export type BacklogAPIEndpoints = {
   get: {
@@ -39,5 +39,16 @@ export type BacklogAPIEndpoints = {
         count: number;
       };
     };
+    '/api/v2/users/myself/recentlyViewedIssues': {
+      query: {
+        order?: 'asc' | 'desc';
+        offset?: number;
+        count?: number;
+      };
+      response: Array<{
+        issue: BacklogIssue;
+        updated: string;
+      }>
+    }
   };
 };

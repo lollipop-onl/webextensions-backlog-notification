@@ -7,6 +7,7 @@ import { CogIcon } from '@heroicons/react/solid';
 export const POPUP_HEADER_TABS = [
   { text: 'お知らせ' },
   { text: 'プロジェクト' },
+  { text: '課題' },
 ];
 
 export type Props = {
