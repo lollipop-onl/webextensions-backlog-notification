@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - release/v2.0
+    paths:
+      - .storybook/**/*
+      - src/**/*
+      - postcss.config.js
+      - tailwind.config.js
+      - package.json
+      - tsconfig.json
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn sb:build
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .storybook/dist
+          destination_dir: storybook
+          cname: backlog.web-ext.lollipop.onl

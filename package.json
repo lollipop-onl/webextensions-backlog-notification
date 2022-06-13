@@ -14,12 +14,23 @@
   "license": "MIT",
   "author": "lollipop-onl <lollipop@simochee.net>",
   "scripts": {
+    "build": "webpack --config webpack.config.prod.ts",
+    "sb:build": "build-storybook -o .storybook/dist",
+    "dev": "webpack serve",
     "format": "pretty-quick --pattern \"**/*.{ts,tsx,js,jsx,css,json,yml,md,html}\"",
     "prepare": "husky install",
-    "dev": "webpack serve",
-    "build": "webpack --config webpack.config.prod.ts"
+    "sb": "start-storybook -p 6006"
+  },
+  "dependencies": {
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^6.5.8",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/builder-webpack5": "^6.5.8",
+    "@storybook/manager-webpack5": "^6.5.8",
+    "@storybook/react": "^6.5.8",
     "@swc/core": "^1.2.198",
     "@tailwindcss/line-clamp": "^0.4.0",
     "@tsconfig/create-react-app": "^1.0.2",
@@ -45,9 +56,5 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.2",
     "webpack-merge": "^5.8.0"
-  },
-  "dependencies": {
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0"
   }
 }
