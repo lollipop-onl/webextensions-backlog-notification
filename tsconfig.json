@@ -1,7 +1,11 @@
 {
   "extends": "@tsconfig/create-react-app/tsconfig.json",
   "compilerOptions": {
+    "jsx": "preserve",
     "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    },
     "types": [
       "webpack-dev-server"
     ]

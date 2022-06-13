@@ -1,3 +1,8 @@
-import 'tailwindcss/tailwind.css';
+import { createRoot } from 'react-dom/client';
+import '~/style.css';
 
-document.body.classList.add('px-4');
+const rootEl = document.createElement('div');
+
+document.body.appendChild(rootEl);
+
+createRoot(rootEl).render(<div>hello you.</div>)

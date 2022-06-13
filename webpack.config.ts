@@ -36,6 +36,11 @@ const config: webpack.Configuration = {
               jsc: {
                 parser: {
                   syntax: 'typescript',
+                },
+                transform: {
+                  react: {
+                    runtime: 'automatic'
+                  }
                 }
               }
             },
