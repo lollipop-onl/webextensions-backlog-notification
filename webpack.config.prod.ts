@@ -9,5 +9,6 @@ export default merge<webpack.Configuration>(config, {
     minimizer: [
       new CssMinimizerPlugin(),
     ]
-  }
+  },
+  stats: 'normal',
 });

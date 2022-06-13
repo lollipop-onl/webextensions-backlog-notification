@@ -13,6 +13,7 @@ const config: webpack.Configuration = {
     static: {
       directory: path.join(__dirname, 'public'),
     },
+    open: ['/popup.html'],
     port: 9000,
   },
   entry: {
@@ -51,11 +52,13 @@ const config: webpack.Configuration = {
       }
     ]
   },
+  stats: 'none',
   resolve: {
     plugins: [new TsconfigPathsPlugin()],
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   plugins: [
+    new webpack.ProgressPlugin(),
     new HTMLWebpackPlugin({
       filename: 'popup.html',
       chunks: ['popup'],
