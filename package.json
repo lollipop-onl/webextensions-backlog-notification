@@ -1,21 +1,21 @@
 {
   "name": "webextensions-backlog-notification",
   "version": "2.0.0",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/lollipop-onl/webextensions-backlog-notification.git"
-  },
+  "private": true,
+  "homepage": "https://github.com/lollipop-onl/webextensions-backlog-notification#readme",
   "bugs": {
     "url": "https://github.com/lollipop-onl/webextensions-backlog-notification/issues",
     "email": "lollipop@simochee.net"
   },
-  "private": true,
-  "homepage": "https://github.com/lollipop-onl/webextensions-backlog-notification#readme",
-  "author": "lollipop-onl <lollipop@simochee.net>",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lollipop-onl/webextensions-backlog-notification.git"
+  },
   "license": "MIT",
+  "author": "lollipop-onl <lollipop@simochee.net>",
   "scripts": {
-    "prepare": "husky install",
-    "format": "pretty-quick --pattern \"**/*.{ts,tsx,js,jsx,css,json,yml,md,html}\""
+    "format": "pretty-quick --pattern \"**/*.{ts,tsx,js,jsx,css,json,yml,md,html}\"",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "husky": "^8.0.1",
