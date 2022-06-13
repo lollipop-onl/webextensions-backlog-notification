@@ -1,0 +1,16 @@
+{
+  "name": "webextensions-backlog-notification",
+  "version": "2.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lollipop-onl/webextensions-backlog-notification.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lollipop-onl/webextensions-backlog-notification/issues",
+    "email": "lollipop@simochee.net"
+  },
+  "private": true,
+  "homepage": "https://github.com/lollipop-onl/webextensions-backlog-notification#readme",
+  "author": "lollipop-onl <lollipop@simochee.net>",
+  "license": "MIT"
+}
