@@ -1,16 +1,10 @@
 {
-  "name": "webextensions-backlog-notification",
-  "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite"
-  },
   "packageManager": "pnpm@8.10.3",
+  "scripts": {
+    "dev": "turbo dev"
+  },
   "devDependencies": {
-    "@crxjs/vite-plugin": "2.0.0-beta.21",
-    "@tsconfig/vite-react": "^2.0.1",
-    "@vitejs/plugin-react": "^4.1.1",
-    "vite": "^4.5.0"
+    "turbo": "^1.10.16"
   }
 }
