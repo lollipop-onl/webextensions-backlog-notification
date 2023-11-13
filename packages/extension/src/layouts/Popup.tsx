@@ -1,4 +1,4 @@
-import { Navbar } from "components/Navbar";
+import { PopupNavbar } from "ui";
 
 type Props = {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ type Props = {
 export const PopupLayout: React.FC<Props> = ({ children }) => {
   return (
     <div>
-      <Navbar />
+      <PopupNavbar />
       {children}
     </div>
   );

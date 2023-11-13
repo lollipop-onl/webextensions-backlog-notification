@@ -7,8 +7,5 @@
   },
   "devDependencies": {
     "turbo": "^1.10.16"
-  },
-  "dependencies": {
-    "tailwindcss-backlog": "workspace:^"
   }
 }
