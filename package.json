@@ -4,12 +4,25 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "vite",
     "format": "prettier --log-level warn --write ."
   },
   "devDependencies": {
+    "@crxjs/vite-plugin": "2.0.0-beta.21",
+    "@tsconfig/vite-react": "^2.0.1",
+    "@types/node": "^20.9.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "4.0.0-beta.1",
     "prettier": "^3.1.0",
     "prettier-plugin-packagejson": "^2.4.6",
-    "prettier-plugin-tailwindcss": "^0.5.7"
+    "prettier-plugin-tailwindcss": "^0.5.7",
+    "vite": "^4.5.0",
+    "vite-tsconfig-paths": "^4.2.1"
   },
-  "packageManager": "pnpm@8.10.3"
+  "packageManager": "pnpm@8.10.3",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
 }
