@@ -15,8 +15,9 @@ export default defineManifest(async () => {
       '128': 'icons/icon128.png',
     },
     action: {
-      default_popup: 'index.html',
+      default_popup: 'index.html#/popup',
     },
+    permissions: ['storage'],
     host_permissions: ['https://*.backlog.com/', 'https://*.backlog.jp/'],
   };
 });
