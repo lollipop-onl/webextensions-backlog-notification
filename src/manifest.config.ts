@@ -1,7 +1,7 @@
-import { defineManifest } from '@crxjs/vite-plugin';
-import pkg from './package.json' assert { type: 'json' };
+import type { Manifest } from 'webextension-polyfill';
+import pkg from '../package.json' assert { type: 'json' };
 
-export default defineManifest(async () => {
+export const manifest = async (): Promise<Manifest.WebExtensionManifest> => {
   return {
     manifest_version: 3,
     name: 'Backlog Ninja',
@@ -15,9 +15,12 @@ export default defineManifest(async () => {
       '128': 'icons/icon128.png',
     },
     action: {
-      default_popup: 'index.html#/popup',
+      default_popup: 'popup.html',
+    },
+    options_ui: {
+      page: 'options.html',
     },
     permissions: ['storage'],
     host_permissions: ['https://*.backlog.com/', 'https://*.backlog.jp/'],
   };
-});
+};

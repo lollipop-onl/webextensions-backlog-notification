@@ -5,15 +5,13 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite",
+    "dev": "vite dev",
     "format": "prettier --log-level warn --write ."
   },
   "dependencies": {
-    "@radix-ui/react-context-menu": "^2.1.5",
     "clsx": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.18.0",
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
@@ -23,7 +21,7 @@
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/webextension-polyfill": "^0.10.6",
-    "@vitejs/plugin-react": "4.0.0-beta.1",
+    "@vitejs/plugin-react": "^4.1.1",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
     "prettier": "^3.1.0",
@@ -31,6 +29,7 @@
     "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5",
     "vite": "^4.5.0",
+    "vite-plugin-web-extension": "^3.2.0",
     "vite-tsconfig-paths": "^4.2.1"
   },
   "packageManager": "pnpm@8.10.3"
