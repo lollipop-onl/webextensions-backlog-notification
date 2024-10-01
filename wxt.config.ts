@@ -5,5 +5,7 @@ export default defineConfig({
 		name: "Backlog Notification Extension",
 		description:
 			"Backlog のお知らせをメニューバーから通知・確認できる Web Extension です",
+		permissions: ["alarms", "storage"],
+		host_permissions: ["https://*.backlog.com/*", "https://*.backlog.jp/*"],
 	},
 });

@@ -2,6 +2,8 @@ import { browser } from "wxt/browser";
 import { requestBacklogAPI } from "~/api";
 import { getSpacesFromStorage } from "~/utils/webextension";
 
+const browserAction = browser.browserAction ?? browser.action;
+
 export default defineBackground(() => {
 	const setCountBadge = (count: number) => {
 		console.log(count);
@@ -9,13 +11,13 @@ export default defineBackground(() => {
 		const badgeText = count > 99 ? "99+" : `${count}`;
 
 		if (count > 0) {
-			browser.browserAction.setBadgeText({ text: badgeText });
-			browser.browserAction.setBadgeBackgroundColor({ color: "#fe1aaf" });
+			browserAction.setBadgeText({ text: badgeText });
+			browserAction.setBadgeBackgroundColor({ color: "#fe1aaf" });
 
 			return;
 		}
 
-		browser.browserAction.setBadgeText({ text: null });
+		browserAction.setBadgeText({ text: null });
 	};
 
 	const updateNotificationCount = async () => {
@@ -36,8 +38,8 @@ export default defineBackground(() => {
 
 			setCountBadge(count);
 		} catch {
-			browser.browserAction.setBadgeText({ text: "!" });
-			browser.browserAction.setBadgeBackgroundColor({ color: "#ffb219" });
+			browserAction.setBadgeText({ text: "!" });
+			browserAction.setBadgeBackgroundColor({ color: "#ffb219" });
 		}
 	};
 
