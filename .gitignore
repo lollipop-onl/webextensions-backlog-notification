@@ -1,5 +1,5 @@
 node_modules
-dist
-web-ext-artifacts
-.env
+.wxt
+.output
 .DS_Store
+*.log
