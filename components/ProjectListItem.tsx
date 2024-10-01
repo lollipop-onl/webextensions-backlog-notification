@@ -10,7 +10,7 @@ export type Props = {
 	project: BacklogProject;
 };
 
-export const ProjectListItem: React.VFC<Props> = ({ space, project }) => {
+export const ProjectListItem: React.FC<Props> = ({ space, project }) => {
 	const projectIconUrl = useMemo(() => {
 		const searchParams = new URLSearchParams();
 

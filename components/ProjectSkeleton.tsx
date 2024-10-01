@@ -1,7 +1,7 @@
 import { PlusIcon, ViewListIcon } from "@heroicons/react/outline";
 import type React from "react";
 
-export const ProjectSkeleton: React.VFC = () => {
+export const ProjectSkeleton: React.FC = () => {
 	return (
 		<div className="flex items-center px-4 py-3 animate-pulse">
 			<div className="w-12 h-12 bg-gray-300 rounded" />

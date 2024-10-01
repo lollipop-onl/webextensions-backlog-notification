@@ -15,7 +15,7 @@ export type Props = {
 	onChange(index: number): void;
 };
 
-export const PopupHeader: React.VFC<Props> = ({ tabIndex, onChange }) => {
+export const PopupHeader: React.FC<Props> = ({ tabIndex, onChange }) => {
 	const openOptionPage = async () => {
 		await browser.runtime.openOptionsPage();
 

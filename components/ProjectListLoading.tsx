@@ -2,7 +2,7 @@ import { range } from "lodash-es";
 import type React from "react";
 import { ProjectSkeleton } from "~/components/ProjectSkeleton";
 
-export const ProjectListLoading: React.VFC = () => {
+export const ProjectListLoading: React.FC = () => {
 	return (
 		<div>
 			{range(6).map((index) => (

@@ -15,7 +15,7 @@ import {
 } from "~/utils/webextension";
 import backlogImage from "~~/images/backlog.png";
 
-export const OptionsApp: React.VFC = () => {
+export const OptionsApp: React.FC = () => {
 	const { data: savedSpaces = [] } = useSWR(
 		"storage.local.spaces",
 		getSpacesFromStorage,

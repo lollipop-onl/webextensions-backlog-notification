@@ -1,6 +1,6 @@
 import type React from "react";
 
-export const NotificationSkeleton: React.VFC = () => {
+export const NotificationSkeleton: React.FC = () => {
 	return (
 		<div className="px-4 py-2 animate-pulse">
 			<div className="flex items-center">

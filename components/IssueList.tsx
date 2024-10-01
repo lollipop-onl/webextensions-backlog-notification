@@ -17,7 +17,7 @@ type BacklogIssues =
 
 const LOAD_PER_PAGE = 30;
 
-export const IssueList: React.VFC<Props> = ({ space }) => {
+export const IssueList: React.FC<Props> = ({ space }) => {
 	// SWR のキーを取得する
 	const getKey = (
 		pageIndex: number,

@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import type { FallbackProps } from "react-error-boundary";
 import { browser } from "wxt/browser";
 
-export const PopupError: React.VFC<FallbackProps> = ({ error }) => {
+export const PopupError: React.FC<FallbackProps> = ({ error }) => {
 	const errorMessage = useMemo(() => {
 		if (!(error instanceof HTTPError)) {
 			return error.message;

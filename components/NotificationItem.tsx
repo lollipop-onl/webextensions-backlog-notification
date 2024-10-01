@@ -21,7 +21,7 @@ type Props = {
 	notification: BacklogNotification;
 };
 
-export const NotificationItem: React.VFC<Props> = ({ notification }) => {
+export const NotificationItem: React.FC<Props> = ({ notification }) => {
 	const [isMetaKeyPressing] = useKeyPress("Meta");
 	const [isShiftKeyPressing] = useKeyPress("Shift");
 	const [isManuallyAlreadyRead, setManuallyAlreadyRead] = useState(false);

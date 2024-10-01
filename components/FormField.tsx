@@ -3,6 +3,7 @@ import type React from "react";
 type Props = {
 	htmlFor?: string;
 	label: string;
+	children: React.ReactNode;
 };
 
 export const FormField: React.FC<Props> = ({ label, htmlFor, children }) => {

@@ -17,7 +17,7 @@ type BacklogNotifications =
 
 const LOAD_PER_PAGE = 30;
 
-export const NotificationList: React.VFC<Props> = ({ space }) => {
+export const NotificationList: React.FC<Props> = ({ space }) => {
 	// SWR のキーを取得する
 	const getKey = (
 		pageIndex: number,

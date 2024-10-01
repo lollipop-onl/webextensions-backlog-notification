@@ -6,7 +6,7 @@ type Props = Omit<React.InputHTMLAttributes<HTMLInputElement>, "onInput"> & {
 	onInput(value: string): void;
 };
 
-export const FormInput: React.VFC<Props> = ({
+export const FormInput: React.FC<Props> = ({
 	onInput,
 	className,
 	...props

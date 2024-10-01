@@ -11,7 +11,7 @@ export type Props = {
 	issue: BacklogIssue;
 };
 
-export const IssueListItem: React.VFC<Props> = ({ space, issue }) => {
+export const IssueListItem: React.FC<Props> = ({ space, issue }) => {
 	const isOverDeadline = useMemo(
 		(): boolean =>
 			Boolean(

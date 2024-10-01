@@ -12,7 +12,7 @@ export type Props = {
 type BacklogRecentlyViewedProjectsProjects =
 	BacklogAPIEndpoints["get"]["/api/v2/users/myself/recentlyViewedProjects"]["response"];
 
-export const ProjectList: React.VFC<Props> = ({ space }) => {
+export const ProjectList: React.FC<Props> = ({ space }) => {
 	// SWR のキーを取得する
 	const getKey = () => {
 		if (!space) {

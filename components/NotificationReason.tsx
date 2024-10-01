@@ -4,7 +4,7 @@ export type Props = {
 	reason: number;
 };
 
-export const NotificationReason: React.VFC<Props> = ({ reason }) => {
+export const NotificationReason: React.FC<Props> = ({ reason }) => {
 	switch (reason) {
 		// 課題の担当者に設定
 		case 1:
