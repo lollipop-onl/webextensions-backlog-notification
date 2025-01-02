@@ -1,6 +1,4 @@
 node_modules
-dist
-web-ext-artifacts
 .output
 .wxt
 .env
