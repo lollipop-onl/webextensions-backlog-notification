@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { browser } from 'webextension-polyfill-ts';
+import { browser } from 'wxt/browser';
 import { AnimateSharedLayout, motion } from 'framer-motion';
 import { CogIcon } from '@heroicons/react/solid';
 
@@ -10,7 +10,7 @@ export const POPUP_HEADER_TABS = [
   { text: '課題' },
 ];
 
-export type Props = {
+type Props = {
   tabIndex: number;
   onChange(index: number): void;
 };

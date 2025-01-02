@@ -1,9 +1,9 @@
 // @ts-check
+import lineClamp from '@tailwindcss/line-clamp';
 
-/** @type {Partial<import('tailwindcss/tailwind-config').TailwindConfig>} */
 const config = {
   mode: 'jit',
-  purge: ['./src/**/*.{html,tsx,ts}'],
+  content: ['./components/**/*.{html,tsx,ts}'],
   darkMode: 'media',
   theme: {
     screens: {
@@ -23,7 +23,7 @@ const config = {
       },
     },
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [lineClamp],
 };
 
-module.exports = config;
+export default config;

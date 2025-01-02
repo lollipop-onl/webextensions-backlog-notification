@@ -5,7 +5,7 @@ import { SpaceOptions } from '~/types/app';
 import { BacklogAPIEndpoints } from '~/api/types';
 import { ProjectListItem } from '~/components/ProjectListItem';
 
-export type Props = {
+type Props = {
   space?: SpaceOptions;
 };
 

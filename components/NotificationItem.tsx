@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import { browser } from 'webextension-polyfill-ts';
+import { browser } from 'wxt/browser';
 import dayjs from 'dayjs';
 import { useKeyPress, useCopyToClipboard } from 'react-use';
 import {
@@ -9,7 +9,7 @@ import {
   ClipboardCopyIcon,
   ArrowRightIcon,
   FireIcon,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/outline/esm';
 import { NotificationReason } from '~/components/NotificationReason';
 import { getSpacesFromStorage } from '~/utils/webextension';
 import { BacklogIssuePriorityId } from '~/constants/backlog';

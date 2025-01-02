@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { ExclamationIcon, RefreshIcon } from '@heroicons/react/outline';
+import { ExclamationIcon, RefreshIcon } from '@heroicons/react/outline/esm';
 import useSWR from 'swr';
 import dayjs from 'dayjs';
 import clsx from 'clsx';

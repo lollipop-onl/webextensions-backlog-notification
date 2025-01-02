@@ -1,5 +1,5 @@
 import React from 'react'
-import { PlusIcon, ViewListIcon } from '@heroicons/react/outline';
+import { PlusIcon, ViewListIcon } from '@heroicons/react/outline/esm';
 
 export const ProjectSkeleton: React.VFC = () => {
   return (

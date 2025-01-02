@@ -1,11 +1,11 @@
 import React, { useMemo, useCallback } from 'react';
 import dayjs from 'dayjs';
-import { FireIcon } from '@heroicons/react/outline';
-import { browser } from 'webextension-polyfill-ts';
+import { FireIcon } from '@heroicons/react/outline/esm';
+import { browser } from 'wxt/browser';
 import { BacklogIssue } from '~/types/backlog';
 import { SpaceOptions } from '~/types/app';
 
-export type Props = {
+type Props = {
   space: SpaceOptions;
   issue: BacklogIssue;
 }

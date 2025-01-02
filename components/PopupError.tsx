@@ -1,8 +1,8 @@
-import { browser } from 'webextension-polyfill-ts';
+import { browser } from 'wxt/browser';
 import React, { useMemo } from 'react';
 import { FallbackProps } from 'react-error-boundary';
 import { HTTPError } from 'ky';
-import { ExclamationIcon } from '@heroicons/react/outline';
+import { ExclamationIcon } from '@heroicons/react/outline/esm';
 
 export const PopupError: React.VFC<FallbackProps> = ({ error }) => {
   const errorMessage = useMemo(() => {

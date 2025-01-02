@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import { browser } from 'wxt/browser';
 import { clamp } from 'lodash-es';
 import { POPUP_HEADER_TABS } from '~/components/PopupHeader';
 import { SpaceOptions } from '~/types/app';

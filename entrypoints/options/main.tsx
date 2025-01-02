@@ -24,8 +24,6 @@ dayjs.locale('ja', {
   },
 });
 
-const $container = document.createElement('div');
-
-document.body.appendChild($container);
+const $container = document.getElementById('app');
 
 ReactDOM.render(<PopupApp />, $container);

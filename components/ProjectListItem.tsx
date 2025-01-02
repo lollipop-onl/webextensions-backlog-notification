@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import { browser } from 'webextension-polyfill-ts';
-import { PlusIcon, ViewListIcon } from '@heroicons/react/outline';
+import { browser } from 'wxt/browser';
+import { PlusIcon, ViewListIcon } from '@heroicons/react/outline/esm';
 import { SpaceOptions } from '~/types/app';
 import { BacklogProject } from '~/types/backlog';
 
-export type Props = {
+type Props = {
   space: SpaceOptions;
   project: BacklogProject;
 };
