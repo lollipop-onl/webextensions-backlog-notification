@@ -11,6 +11,8 @@ import { PopupHeader } from '~/components/PopupHeader';
 import { PopupError } from '~/components/PopupError';
 import { getActiveTabIndexFromStorage, getSpacesFromStorage, setActiveTabIndexToStorage } from '~/utils/webextension';
 
+document.body.classList.add('overscroll-none')
+
 export const PopupView: React.VFC = () => {
   const [tabIndex, setTabIndex] = useState<number | null>(null);
   const { data: [space] = [] } = useSWR(
@@ -47,8 +49,10 @@ export const PopupView: React.VFC = () => {
   }
 
   return (
-    <div>
-      <PopupHeader tabIndex={tabIndex} onChange={onChangeActiveTab} />
+    <>
+      <div className="sticky top-0 left-0 w-full z-10">
+        <PopupHeader tabIndex={tabIndex} onChange={onChangeActiveTab} />
+      </div>
       { tabIndex === 0 ? (
         <Suspense fallback={<NotificationListLoading />}>
           <NotificationList space={space} />
@@ -62,7 +66,7 @@ export const PopupView: React.VFC = () => {
           <IssueList space={space} />
         </Suspense>
       ) : null}
-    </div>
+    </>
   );
 };
 
