@@ -11,7 +11,7 @@ import {
   getSpacesFromStorage,
   saveSpacesToStorage,
 } from '~/utils/webextension';
-import backlogImage from '~~/images/backlog.png';
+import backlogImage from '~/images/backlog.png';
 import { requestBacklogAPI } from '~/api';
 
 export const OptionsApp: React.VFC = () => {

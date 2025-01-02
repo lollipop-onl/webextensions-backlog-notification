@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { PopupApp } from '~/components/PopupApp';
+import { OptionsApp } from '~/components/OptionsApp';
 import 'tailwindcss/tailwind.css';
 
 dayjs.extend(relativeTime);
@@ -26,4 +26,8 @@ dayjs.locale('ja', {
 
 const $container = document.getElementById('app');
 
-ReactDOM.render(<PopupApp />, $container);
+ReactDOM.render(
+  <Suspense fallback={null}>
+    <OptionsApp />
+  </Suspense>
+, $container);
